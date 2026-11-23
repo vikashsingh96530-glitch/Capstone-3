@@ -1,0 +1,14 @@
+const router=require('express').Router();
+const {param,query}=require('express-validator');
+const validate=require('../middleware/validate');
+const {authenticate,authorize}=require('../middleware/auth');
+const c=require('../controllers/reportController');
+router.use(authenticate);
+router.get('/attendance-summary',authorize('admin','faculty'),c.attendanceSummary);
+router.get('/attendance-summary/course/:courseId',authorize('admin','faculty'),param('courseId').isMongoId(),validate,c.attendanceSummary);
+router.get('/attendance-summary/section/:sectionId',authorize('admin','faculty'),param('sectionId').isMongoId(),validate,c.attendanceSummary);
+router.get('/low-attendance',authorize('admin','faculty'),query('threshold').optional().isFloat({min:0,max:100}),validate,c.lowAttendance);
+router.get('/enrollment-summary',authorize('admin','faculty'),c.enrollmentSummary);
+router.get('/attendance.csv',authorize('admin','faculty'),c.attendanceCsv);
+router.get('/attendance/:sectionId.csv',authorize('admin','faculty'),param('sectionId').isMongoId(),validate,c.attendanceCsv);
+module.exports=router;

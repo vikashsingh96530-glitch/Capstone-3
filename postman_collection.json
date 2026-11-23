@@ -1,0 +1,14 @@
+{
+  "info": { "name": "University Campus Management API", "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json" },
+  "variable": [{ "key": "baseUrl", "value": "http://localhost:5000" }, { "key": "token", "value": "" }],
+  "item": [
+    { "name": "Health", "request": { "method": "GET", "url": "{{baseUrl}}/health" } },
+    { "name": "Admin Login", "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"email\": \"admin@campus.edu\",\n  \"password\": \"Admin@123\"\n}" }, "url": "{{baseUrl}}/api/auth/login" } },
+    { "name": "Student Login", "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"email\": \"student1@campus.edu\",\n  \"password\": \"Student@123\"\n}" }, "url": "{{baseUrl}}/api/auth/login" } },
+    { "name": "Create Course", "request": { "method": "POST", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" }], "body": { "mode": "raw", "raw": "{\n  \"code\": \"CS102\",\n  \"name\": \"Data Structures\",\n  \"credits\": 4,\n  \"department\": \"Computer Science\"\n}" }, "url": "{{baseUrl}}/api/courses" } },
+    { "name": "List Courses", "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": "{{baseUrl}}/api/courses?page=1&limit=10" } },
+    { "name": "My Attendance", "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": "{{baseUrl}}/api/attendance/me" } },
+    { "name": "Enrollment Summary", "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": "{{baseUrl}}/api/reports/enrollment-summary" } },
+    { "name": "Low Attendance", "request": { "method": "GET", "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }], "url": "{{baseUrl}}/api/reports/low-attendance?threshold=75" } }
+  ]
+}

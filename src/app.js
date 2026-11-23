@@ -1,0 +1,24 @@
+const express=require('express');
+const cors=require('cors');
+const morgan=require('morgan');
+const authRoutes=require('./routes/authRoutes');
+const campusRoutes=require('./routes/campusRoutes');
+const attendanceRoutes=require('./routes/attendanceRoutes');
+const announcementRoutes=require('./routes/announcementRoutes');
+const reportRoutes=require('./routes/reportRoutes');
+const {notFound,errorHandler}=require('./middleware/error');
+
+const app=express();
+app.use(cors({origin:process.env.CLIENT_ORIGIN||'*'}));
+app.use(express.json({limit:'1mb'}));
+app.use(express.urlencoded({extended:true}));
+if(process.env.NODE_ENV!=='test')app.use(morgan('dev'));
+app.get('/health',(req,res)=>res.json({success:true,message:'Campus API is healthy'}));
+app.use('/api/auth',authRoutes);
+app.use('/api',campusRoutes);
+app.use('/api/attendance',attendanceRoutes);
+app.use('/api/announcements',announcementRoutes);
+app.use('/api/reports',reportRoutes);
+app.use(notFound);
+app.use(errorHandler);
+module.exports=app;
